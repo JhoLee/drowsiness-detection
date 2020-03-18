@@ -29,12 +29,15 @@ RUN /bin/sh -c curl -v -o ~/miniconda.sh \
         mkl-include \
         ninja \
         cython \
-        typing \
-        imutils \
-        dlib \
-        opencv-python && \
+        typing && \
      /opt/conda/bin/conda install -y -c pytorch \
-     magma-cuda100 && \
+        magma-cuda100 && \
+     /opt/conda/bin/conda install -c conda-forge \
+        opencv \
+        imutils && \
+     /opt/conda/bin/conda install -c menpo \
+        dlib && \
+
      /opt/conda/bin/conda clean -ya
 ENV PATH /opt/conda/bin:$PATH
 # This must be done before pip so that requirements.txt is available
