@@ -1,6 +1,7 @@
-FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
+FROM nvidia/cuda:10.0-base-ubuntu16.04
 ARG PYTHON_VERSION=3.8
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
          build-essential \
          cmake \
          git \
