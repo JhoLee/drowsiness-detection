@@ -10,15 +10,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
          libpng-dev && \
      rm -rf /var/lib/apt/lists/*
 
+LABEL com.nvidia.volumes.needed=nvidia_driver
 
 # python
-RUN curl -o ~/miniconda.sh \
-     -O  https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh  && \
+RUN /bin/sh -c curl -v -o ~/miniconda.sh \
+     -O https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh  && \
      chmod +x ~/miniconda.sh && \
      ~/miniconda.sh -b -p /opt/conda && \
      rm ~/miniconda.sh && \
      /opt/conda/bin/conda install -y \
         python=$PYTHON_VERSION \
+        conda-build \
         numpy \
         pyyaml \
         scipy \
