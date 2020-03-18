@@ -1,42 +1,41 @@
 FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
 ARG PYTHON_VERSION=3.8
-RUN apt-get update \
- && apt-get -y install --no-install-recommends \
-        build-essential \
-        git \
-        curl \
-        ca-certificates \
-        libjpeg-dev \
-        libpng-dev && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends \
+         build-essential \
+         cmake \
+         git \
+         curl \
+         ca-certificates \
+         libjpeg-dev \
+         libpng-dev && \
+     rm -rf /var/lib/apt/lists/*
 
 
 # python
-RUN curl -o ~/miniconda.sh -O \
-        https://repo.continum.io/miniconda/\
-        Miniconda3-latest-Linux-x86_64.sh && \
-    chmod +x ~/miniconda.sh && \
-    ~/miniconda.sh -b -p /opt/conda && \
-    rm ~/miniconda.sh && \
-    /opt/conda/bin/conda install -y \
+RUN curl -o ~/miniconda.sh \
+     -O  https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh  && \
+     chmod +x ~/miniconda.sh && \
+     ~/miniconda.sh -b -p /opt/conda && \
+     rm ~/miniconda.sh && \
+     /opt/conda/bin/conda install -y \
         python=$PYTHON_VERSION \
-            numpy \
-            pyyaml \
-            scipy \
-            ipython \
-            mkl \
-            mkl-include \
-            ninja \
-            cython \
-            typing \
-            imutils \
-            dlib \
-            opencv-python \
-            && \
-    /opt/conda/bin/conda install -y -c pytorch \
-        magma-cuda100 && \
-    /opt/conda/bin/conda clean -ya
-ENV PATH /opt/cona/bin:$PATH
+        numpy \
+        pyyaml \
+        scipy \
+        ipython \
+        mkl \
+        mkl-include \
+        ninja \
+        cython \
+        typing \
+        imutils \
+        dlib \
+        opencv-python && \
+     /opt/conda/bin/conda install -y -c pytorch \
+     magma-cuda100 && \
+     /opt/conda/bin/conda clean -ya
+ENV PATH /opt/conda/bin:$PATH
+# This must be done before pip so that requirements.txt is available
 WORKDIR /opt/pytorch
 COPY . .
 
@@ -51,7 +50,7 @@ RUN if [ "$WITH_TORCHVISION" = "1" ] ; then \
         cd vision && \
         pip install -v . ; \
     else \
-        echo "building without torchivision" ; \
+        echo "building without torchvision" ; \
     fi
 
 WORKDIR /workspace
