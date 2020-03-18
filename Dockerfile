@@ -28,7 +28,11 @@ RUN curl -o ~/miniconda.sh -O \
             mkl-include \
             ninja \
             cython \
-            typing && \
+            typing \
+            imutils \
+            dlib \
+            opencv-python \
+            && \
     /opt/conda/bin/conda install -y -c pytorch \
         magma-cuda100 && \
     /opt/conda/bin/conda clean -ya
