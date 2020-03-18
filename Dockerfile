@@ -5,7 +5,7 @@ RUN apt-get update \
         build-essential \
         git \
         curl \
-        ca-certifiacates \
+        ca-certificates \
         libjpeg-dev \
         libpng-dev && \
     rm -rf /var/lib/apt/lists/*
